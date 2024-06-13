@@ -17,21 +17,16 @@
         everything starts from JS in React JS
         JSX is a syntax extension for JavaScript that lets you write HTML-like markup inside a JavaScript file. 
         Element you created should start with a uppercase 
+
+        How to trigger rerendering
     */
     const root = document.getElementById("root");
-    let counter = 0;
-    function countUp() {
-        counter++;
-        render();
-    }
-    function render() {
-        ReactDOM.render(<Container />, root);
-    }
-    function Container() {
-        /*  const [counter, setCounter] = useState(0);
-         const onClick = () => {
-             setCounter(counter++);
-         } */
+
+    function App() {
+        const [counter, setCounter] = React.useState(0);
+        const countUp = () => {
+            setCounter(counter + 1);
+        }
         return (
             <div>
                 <h3>Total Clicks: {counter}</h3>
@@ -41,7 +36,7 @@
             </div>
         )
     };
-    render();
+    ReactDOM.render(<App />, root);
 </script>
 
 
