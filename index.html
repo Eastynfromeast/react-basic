@@ -11,25 +11,37 @@
 <script src="https://www.unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
 <script src="https://www.unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
 <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+
 <script type="text/babel">
     /*
         everything starts from JS in React JS
         JSX is a syntax extension for JavaScript that lets you write HTML-like markup inside a JavaScript file. 
+        Element you created should start with a uppercase 
     */
     const root = document.getElementById("root");
-    const Title = (<h3 id="title" onMouseEnter={() => console.log("mouse entered")}> Hello I am a title </h3>);
-    const Button = (<button style={{ backgroundColor: "teal", color: "#fff" }} onClick={() => console.log("I am clicked")}>Click me</button>);
-    const btn = React.createElement("button",
-        {
-            onClick: () => console.log("I am clicked"),
-            style: {
-                backgroundColor: "teal",
-                color: "#fff",
-            }
-        },
-        "Click me");
-    const container = React.createElement("div", null, [Title, Button]);
-    ReactDOM.render(container, root);
+    let counter = 0;
+    function countUp() {
+        counter++;
+        render();
+    }
+    function render() {
+        ReactDOM.render(<Container />, root);
+    }
+    function Container() {
+        /*  const [counter, setCounter] = useState(0);
+         const onClick = () => {
+             setCounter(counter++);
+         } */
+        return (
+            <div>
+                <h3>Total Clicks: {counter}</h3>
+                <button onClick={countUp}>
+                    Click me
+                </button>
+            </div>
+        )
+    };
+    render();
 </script>
 
 
