@@ -24,22 +24,52 @@
             
                 When you change the state, the data of your application, using a modifier function, the whole component will be recreated with new value, which means rerendering
                 = Changing a state triggers rerendering
+        
+        "for" is JavaScript term, so it's reserved
     */
     const root = document.getElementById("root");
 
     function App() {
-        const [counter, setCounter] = React.useState(0);
-        const countUp = () => {
-            // setCounter(counter+1);
-            setCounter(prev => prev + 1); // more safe, use function to cal culate the value based on the "current state"
+        const [amount, setAmount] = React.useState(0);
+        const [isFlipped, setIsFlipped] = React.useState(false);
+        const onChangeTime = (event) => {
+            setAmount(event.target.value);
         }
-
+        /*   const onClickConvert = () => {
+              setHours(parseInt(amount / 60));
+          } */
+        const reset = () => setAmount(0);
+        const onFlip = () => {
+            setIsFlipped(prev => !prev);
+            reset();
+        }
         return (
             <div>
-                <h3>Total Clicks: {counter}</h3>
-                <button onClick={countUp}>
-                    Click me
-                </button>
+                <h1>Super Converter</h1>
+                <div>
+                    <label htmlFor="minutes">Minutes</label>
+                    <input
+                        value={isFlipped ? amount * 60 : amount}
+                        id="minutess"
+                        placeholder="Minutes"
+                        type="number"
+                        onChange={onChangeTime}
+                        disabled={isFlipped}
+                    />
+                </div>
+                <div>
+                    <label htmlFor="hours">Hours</label>
+                    <input
+                        value={isFlipped ? amount : Math.round(amount / 60)}
+                        id="hours"
+                        placeholder="Hours"
+                        type="number"
+                        disabled={!isFlipped}
+                        onChange={onChangeTime}
+                    />
+                </div>
+                <button onClick={reset}>Reset</button>
+                <button onClick={onFlip}>Flip</button>
             </div>
         )
     };
