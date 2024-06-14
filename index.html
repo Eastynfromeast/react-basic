@@ -23,16 +23,17 @@
                 modifier function updates the value and trigger rerender
             
                 When you change the state, the data of your application, using a modifier function, the whole component will be recreated with new value, which means rerendering
+                = Changing a state triggers rerendering
     */
     const root = document.getElementById("root");
 
     function App() {
         const [counter, setCounter] = React.useState(0);
         const countUp = () => {
-            setCounter(counter + 1);
+            // setCounter(counter+1);
+            setCounter(prev => prev + 1); // more safe, use function to cal culate the value based on the "current state"
         }
-        console.log("rendered");
-        console.log(counter);
+
         return (
             <div>
                 <h3>Total Clicks: {counter}</h3>
