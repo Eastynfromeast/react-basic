@@ -31,7 +31,8 @@
 
     function App() {
         const [amount, setAmount] = React.useState(0);
-        const [isFlipped, setIsFlipped] = React.useState(false);
+        const [isInverted, setIsInverted] = React.useState(false);
+        const [isConverted, setIsConverted] = React.useState(false);
         const onChangeTime = (event) => {
             setAmount(event.target.value);
         }
@@ -40,36 +41,38 @@
           } */
         const reset = () => setAmount(0);
         const onFlip = () => {
-            setIsFlipped(prev => !prev);
             reset();
+            setIsInverted(prev => !prev);
         }
+
         return (
             <div>
                 <h1>Super Converter</h1>
                 <div>
                     <label htmlFor="minutes">Minutes</label>
                     <input
-                        value={isFlipped ? amount * 60 : amount}
+                        value={isInverted ? amount * 60 : amount}
                         id="minutess"
                         placeholder="Minutes"
                         type="number"
                         onChange={onChangeTime}
-                        disabled={isFlipped}
+                        disabled={isInverted}
                     />
                 </div>
                 <div>
                     <label htmlFor="hours">Hours</label>
                     <input
-                        value={isFlipped ? amount : Math.round(amount / 60)}
+                        value={isInverted ? amount : Math.round(amount / 60)}
                         id="hours"
                         placeholder="Hours"
                         type="number"
-                        disabled={!isFlipped}
+                        disabled={!isInverted}
                         onChange={onChangeTime}
                     />
                 </div>
+
                 <button onClick={reset}>Reset</button>
-                <button onClick={onFlip}>Flip</button>
+                <button onClick={onFlip}>{isInverted ? "Invert to mins" : "Invert to hrs"}</button>
             </div>
         )
     };
