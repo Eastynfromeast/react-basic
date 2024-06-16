@@ -98,17 +98,19 @@
         )
     }
     function App() {
-        const [index, setIndex] = React.useState("0");
+        const [index, setIndex] = React.useState("xx");
         const onSelect = (e) => {
             setIndex(e.target.value)
         }
         return (
             <div>
                 <h1>Super Converter</h1>
-                <select onChange={onSelect} value={index}>
+                <select onChange={onSelect} value={index} >
                     <option value="0">Minutes & Hours</option>
                     <option value="1">Km & miles</option>
                 </select>
+                <hr />
+                {index === "xx" ? "Please select your units" : null}
                 {index === "0" ? <MinutesToHours /> : null}
                 {index === "1" ? <KmsToMiles /> : null}
             </div>
