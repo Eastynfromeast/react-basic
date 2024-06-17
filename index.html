@@ -13,106 +13,30 @@
 <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
 
 <script type="text/babel">
+    /* 
+        Props 
+            Every parent component can pass some information to its child components by giving them props
+            모든 부모 컴포넌트는 자식 컴포넌트들에게 Props를 줌으로써 정보를 전달할 수 있다
+    */
     const root = document.getElementById("root");
-    function MinutesToHours() {
-        const [amount, setAmount] = React.useState(0);
-        const [isInverted, setIsInverted] = React.useState(false);
-        const onChangeAmount = (event) => {
-            setAmount(event.target.value);
-        }
-
-        const reset = () => setAmount(0);
-        const onFlip = () => {
-            reset();
-            setIsInverted(prev => !prev);
-        }
-
-        return (
-            <div>
-                <div>
-                    <label htmlFor="minutes">Minutes</label>
-                    <input
-                        value={isInverted ? amount * 60 : amount}
-                        id="minutess"
-                        placeholder="Minutes"
-                        type="number"
-                        onChange={onChangeAmount}
-                        disabled={isInverted}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="hours">Hours</label>
-                    <input
-                        value={isInverted ? amount : Math.round(amount / 60)}
-                        id="hours"
-                        placeholder="Hours"
-                        type="number"
-                        disabled={!isInverted}
-                        onChange={onChangeAmount}
-                    />
-                </div>
-                <button onClick={reset}>Reset</button>
-                <button onClick={onFlip}>{isInverted ? "Invert to mins" : "Invert to hrs"}</button>
-            </div>
-        )
-    };
-
-    function KmsToMiles() {
-        const [amount, setAmount] = React.useState(0);
-        const [isInverted, setIsInverted] = React.useState(false);
-        const reset = () => setAmount(0);
-        const onChangeAmount = (event) => {
-            setAmount(event.target.value);
-        }
-        const onFlip = () => {
-            reset();
-            setIsInverted(prev => !prev);
-        }
-        return (
-            <div>
-                <div>
-                    <label htmlFor="kms">Kms</label>
-                    <input
-                        onChange={onChangeAmount}
-                        value={isInverted ? amount * 1.60934 : amount}
-                        id="kms"
-                        type="number"
-                        placeholder="Kilometers"
-                        disabled={isInverted ? true : false}
-                    />
-                </div>
-                <div>
-                    <label htmlFor="miles">Miles</label>
-                    <input
-                        onChange={onChangeAmount}
-                        value={isInverted ? amount : amount * 0.621371}
-                        id="miles"
-                        type="number"
-                        placeholder="Miles"
-                        disabled={isInverted ? false : true}
-                    />
-                </div>
-                <button onClick={reset}>Reset</button>
-                <button onClick={onFlip}>{isInverted ? "Invert to miles" : "Invert to kms"}</button>
-            </div>
-        )
+    function Btn({ text, backgroundColor, color, big }) {
+        return <button
+            style={{
+                padding: "10px 20px",
+                border: 0,
+                borderRadius: 10,
+                backgroundColor: backgroundColor ? backgroundColor : "skyblue",
+                color: color ? color : "#000",
+                fontSize: big ? 18 : 14,
+            }}>
+            {text}
+        </button>
     }
     function App() {
-        const [index, setIndex] = React.useState("xx");
-        const onSelect = (e) => {
-            setIndex(e.target.value)
-        }
         return (
             <div>
-                <h1>Super Converter</h1>
-                <select onChange={onSelect} value={index} >
-                    <option value="0">Minutes & Hours</option>
-                    <option value="1">Km & miles</option>
-                </select>
-                <hr />
-                {index === "xx" ? "Please select your units" : null}
-                {index === "0" ? <MinutesToHours /> : null}
-                {index === "1" ? <KmsToMiles /> : null}
+                <Btn backgroundColor="green" color="#fff" text="Save Changes" big={true} />
+                <Btn text="Continue" big={false} />
             </div>
         )
     };
