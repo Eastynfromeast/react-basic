@@ -8,8 +8,9 @@
 <body>
     <div id="root"></div>
 </body>
-<script src="https://www.unpkg.com/react@18.3.1/umd/react.production.min.js"></script>
+<script src="https://www.unpkg.com/react@18.3.1/umd/react.development.js"></script>
 <script src="https://www.unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/prop-types@15.8.1/prop-types.js"></script>
 <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
 
 <script type="text/babel">
@@ -23,32 +24,36 @@
                 -> we can use React memo
                 
             memo lets you skip re-rendering a component when its props are unchanged.
+
+        Prop Types
+            You can use prop-types to document the intended types of properties passed to components.
+            you can give default value thanks to JS
     */
     const root = document.getElementById("root");
-    function Btn({ text, backgroundColor, color, onClick }) {
-        console.log(text, " was rendered");
+    function Btn({ text, fontSize = 16 }) {
         return <button
-            onClick={onClick}
             style={{
                 padding: "10px 20px",
                 border: 0,
                 borderRadius: 10,
-                backgroundColor: backgroundColor ? backgroundColor : "skyblue",
-                color: color ? color : "#000",
+                backgroundColor: "skyblue",
+                color: "#000",
+                fontSize
             }}>
             {text}
         </button>
     }
 
-    const MemorizedBtn = React.memo(Btn);
+    Btn.propTypes = {
+        text: PropTypes.string.isRequired,
+        fontSize: PropTypes.number,
+    }
 
     function App() {
-        const [value, setValue] = React.useState("Save Changes");
-        const changeValue = () => setValue("Revert Changes");
         return (
             <div>
-                <MemorizedBtn text={value} onClick={changeValue} />
-                <MemorizedBtn text="Continue" />
+                <Btn text="Save Changes" fontSize={18} />
+                <Btn text="Continue" />
             </div>
         )
     };
