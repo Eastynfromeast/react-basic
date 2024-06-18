@@ -1,40 +1,46 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function App() {
-	const [toDo, setToDo] = useState("");
-	const [toDos, setToDos] = useState([]);
-	const onChangeTodo = event => setToDo(event.target.value);
-	const onSubmit = event => {
-		event.preventDefault();
-		if (toDo === "") {
-			return;
-		}
-		console.log(toDo);
-		setToDo("");
-		setToDos(currentArray => [toDo, ...currentArray]);
-	};
+	const [isLoading, setIsLoading] = useState(true);
+	const [coins, setCoins] = useState([]);
+	const [value, setValue] = useState(0);
+	const [amount, setAmount] = useState(0);
+	const onChangeAmount = event => setAmount(event.target.value);
 
-	const onClickDelete = index => {
-		setToDos(currentArr => currentArr.filter((_, arrIndex) => index !== arrIndex));
-		console.log(toDos);
-	};
+	const onSelect = e => setValue(e.target.value);
+	useEffect(() => {
+		fetch("https://api.coinpaprika.com/v1/tickers")
+			.then(response => response.json())
+			.then(json => {
+				setCoins(json);
+				setIsLoading(false);
+			});
+	}, []);
+
 	return (
 		<div>
-			<form onSubmit={onSubmit}>
-				<input onChange={onChangeTodo} value={toDo} type="text" placeholder="Write your to do" />
-				<button>Add To Do</button>
-			</form>
-			<hr />
-			<ul>
-				{toDos.map((toDo, index) => {
-					return (
-						<li key={index}>
-							{toDo}
-							<button onClick={() => onClickDelete(index)}>Delete</button>
-						</li>
-					);
-				})}
-			</ul>
+			<h1>The Coin Tracker {isLoading ? "" : `(${coins.length})`}</h1>
+			{isLoading ? (
+				<h3>loading...</h3>
+			) : (
+				<>
+					<select onSelect={onSelect}>
+						{coins.map((coin, index) => {
+							return (
+								<option value={coin.quotes.USD.price} key={coin.id}>
+									{coin.name}({coin.symbol}) : {coin.quotes.USD.price}
+								</option>
+							);
+						})}
+					</select>
+					<hr />
+					<div>
+						<label htmlFor="amount">Number?</label>
+						<input value={amount} onChange={onChangeAmount} type="number" id="amount" placeholder="Put any number..." />
+						<p>{value}</p>
+					</div>
+				</>
+			)}
 		</div>
 	);
 }
