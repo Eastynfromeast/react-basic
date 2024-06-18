@@ -1,26 +1,40 @@
-import { useEffect, useState } from "react";
-
-function Hello() {
-	function hiFn() {
-		console.log("created:)");
-		return byefn;
-	}
-	function byefn() {
-		console.log("destoryed :(");
-	}
-	useEffect(() => {
-		hiFn();
-	}, []);
-	return <h1>Hello</h1>;
-}
+import { useState } from "react";
 
 function App() {
-	const [showing, setShowing] = useState(false);
-	const onClick = () => setShowing(prev => !prev);
+	const [toDo, setToDo] = useState("");
+	const [toDos, setToDos] = useState([]);
+	const onChangeTodo = event => setToDo(event.target.value);
+	const onSubmit = event => {
+		event.preventDefault();
+		if (toDo === "") {
+			return;
+		}
+		console.log(toDo);
+		setToDo("");
+		setToDos(currentArray => [toDo, ...currentArray]);
+	};
+
+	const onClickDelete = index => {
+		setToDos(currentArr => currentArr.filter((_, arrIndex) => index !== arrIndex));
+		console.log(toDos);
+	};
 	return (
 		<div>
-			{showing ? <Hello /> : null}
-			<button onClick={onClick}> {showing ? "Hide" : "Show"}</button>
+			<form onSubmit={onSubmit}>
+				<input onChange={onChangeTodo} value={toDo} type="text" placeholder="Write your to do" />
+				<button>Add To Do</button>
+			</form>
+			<hr />
+			<ul>
+				{toDos.map((toDo, index) => {
+					return (
+						<li key={index}>
+							{toDo}
+							<button onClick={() => onClickDelete(index)}>Delete</button>
+						</li>
+					);
+				})}
+			</ul>
 		</div>
 	);
 }
@@ -41,5 +55,4 @@ export default App;
     Cleanup
         cleanup function allows you to  do something when your component is destroyed
         Your setup function may also optionally return a cleanup function.
-
 */
