@@ -1,27 +1,26 @@
 import { useEffect, useState } from "react";
 
-function App() {
-	const [counter, setCounter] = useState(0);
-	const [keyword, setKeyword] = useState("");
-	const onChangeKeyword = event => setKeyword(event.target.value);
-	const onClick = () => setCounter(prev => prev + 1);
-
+function Hello() {
+	function hiFn() {
+		console.log("created:)");
+		return byefn;
+	}
+	function byefn() {
+		console.log("destoryed :(");
+	}
 	useEffect(() => {
-		console.log("I run only once");
+		hiFn();
 	}, []);
-	useEffect(() => {
-		if (keyword !== "" && keyword.length > 5) {
-			console.log("SEARCH FOR ", keyword);
-		}
-	}, [keyword]);
-	useEffect(() => {
-		console.log("I run when 'counter' changes");
-	}, [counter]);
+	return <h1>Hello</h1>;
+}
+
+function App() {
+	const [showing, setShowing] = useState(false);
+	const onClick = () => setShowing(prev => !prev);
 	return (
 		<div>
-			<input value={keyword} onChange={onChangeKeyword} type="text" placeholder="Search bar here" />
-			<h1>{counter}</h1>
-			<button onClick={onClick}>click me</button>
+			{showing ? <Hello /> : null}
+			<button onClick={onClick}> {showing ? "Hide" : "Show"}</button>
 		</div>
 	);
 }
@@ -37,6 +36,10 @@ export default App;
         => useEffect
             useEffect is a React Hook that lets you synchronize a component with an external system.
             useEffect(setup,dependencies)
+            useEffect is kind of depense to Reat JS not to rerender every time a state changes
 
+    Cleanup
+        cleanup function allows you to  do something when your component is destroyed
+        Your setup function may also optionally return a cleanup function.
 
 */
