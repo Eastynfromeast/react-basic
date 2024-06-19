@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Nulnu's React Basic Calculator</title>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css" />
+    <style>
+        body {
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="root"></div>
+</body>
+<script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+    function App() {
+        const [numbers, setNumbers] = React.useState(["", ""]);
+        const [operation, setOperation] = React.useState("xx");
+        const [result, setResult] = React.useState();
+        const onChangeNumbers = (event) => {
+            if (event.target.id === "numberA") {
+                setNumbers((current) => [event.target.value, current[1]]);
+            } else {
+                setNumbers((current) => [current[0], event.target.value]);
+            }
+        };
+        const onSelectOperation = (event) => {
+            setOperation(event.target.value);
+        };
+        const onSubmit = (event) => {
+            event.preventDefault();
+            if (numbers[0] === "" || numbers[1] === "") {
+                alert("숫자를 입력해주세요");
+                return;
+            }
+            const [a, b] = [Number(numbers[0]), Number(numbers[1])];
+
+            switch (operation) {
+                case "+":
+                    setResult(a + b);
+                    break;
+                case "-":
+                    setResult(a - b);
+                    break;
+                case "/":
+                    setResult(a / b);
+                    break;
+                case "*":
+                    setResult(a * b);
+                    break;
+                default:
+                    alert("옵션을 선택해 주세요");
+            }
+        };
+
+        const onClickReset = () => {
+            setNumbers(["", ""]);
+            setOperation("xx");
+            setResult();
+        }
+
+        return (
+            <div className="container">
+                <h1>🔥 Calculator 🔥</h1>
+                <form onSubmit={onSubmit}>
+                    <input
+                        onChange={onChangeNumbers}
+                        value={numbers[0]}
+                        id="numberA"
+                        type="number"
+                        placeholder="Write a number"
+                    />
+                    <input
+                        onChange={onChangeNumbers}
+                        value={numbers[1]}
+                        id="numberB"
+                        type="number"
+                        placeholder="And another!"
+                    />
+                    <select onChange={onSelectOperation} value={operation}>
+                        <option value="xx">Select your option</option>
+                        <option value="+">+</option>
+                        <option value="-">-</option>
+                        <option value="/">/</option>
+                        <option value="*">*</option>
+                    </select>
+                    <button>Calculate</button>
+                </form>
+
+                {result !== undefined ? (
+                    <>
+                        <h1>The Result is {result}</h1>
+                        <button onClick={onClickReset}> Reset </button>
+                    </>
+                ) : null}
+            </div>
+        );
+    }
+    const root = document.getElementById("root");
+    ReactDOM.render(<App />, root);
+</script>
+
+</html>
